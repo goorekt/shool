@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./routes/navbar/navbar.routes";
 import SignInPage from "./routes/sign-in/sign-in.page";
 import HomePage from "./routes/home/home.page";
+import NewPostPage from "./routes/new-post/new-post.page";
 
 function App() {
 	const { currentUser } = useContext(UserContext);
@@ -15,6 +16,7 @@ function App() {
     <Route path="/" element={<Navbar/>}>
     <Route index element={<HomePage/>}/>
     <Route path="sign-in" element={<SignInPage/>}/>
+    <Route path="new-post" element={<NewPostPage/>}/>
     </Route>
     </Routes>
 		
