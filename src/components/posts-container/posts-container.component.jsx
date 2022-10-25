@@ -1,11 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
+import { PostsContext } from "../../contexts/posts.context";
 import Post from "../post/post.component";
 import { PostsContainerStyles } from "./posts-container.styles";
 const PostsContainer = () => {
-	const posts = [
-		{ title: "my day", bodyText: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
-		{ title: "post 2", bodyText: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
-	];
+	const {posts}=useContext(PostsContext);
 	return (
 		<PostsContainerStyles>
 			{posts.map((post) => (

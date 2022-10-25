@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import FormInput from "../../components/form-input/form-input.component";
 import PostsContainer from "../../components/posts-container/posts-container.component";
-
+import {PostsContext} from "../../contexts/posts.context";
 const HomePage = () => {
-	const [inputs, setInputs] = useState({
+  const defaultInputs={
 		title: "",
     text:"",
-	});
+	};
+  const {createNewPost}=useContext(PostsContext);
+	const [inputs, setInputs] = useState(defaultInputs);
 
-	const handleSubmitNewPost = () => {};
+	const handleSubmitNewPost = (event) => {
+    event.preventDefault();
+    setInputs(defaultInputs);
+    createNewPost(inputs);
+  };
 	const handleChange = (e) => {
     const {value,name}=e.target;
     
@@ -34,6 +40,7 @@ const HomePage = () => {
 						name="text"
 						value={inputs.text}
 					/>
+          <button type="submit">create new post</button>
 				</form>
 			</div>
 		</div>
