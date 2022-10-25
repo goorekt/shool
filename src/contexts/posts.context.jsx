@@ -1,11 +1,12 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { UserContext } from "./user.context";
 import { createAction } from "../utils/reducer/reducer.utils.js";
+import { addCollectionAndDocuments, getPostsFromFirebase } from "../utils/firebase.utils";
 export const PostsContext = createContext({
 	createNewPost: () => null,
 	posts: [
-		{ title: "my day", text: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
-		{ title: "post 2", text: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
+		
+		
 	],
 	postsCount: 0,
 });
@@ -13,10 +14,11 @@ const POSTS_ACTION_TYPES = {
 	SET_POSTS: "SET_POSTS",
 };
 
-const postsReducer = (state, { type, payload }) => {
+const postsReducer = (state, action) => {
+	const {type,payload}=action;
 	switch (type) {
 		case POSTS_ACTION_TYPES.SET_POSTS:
-			console.log(payload);
+			addCollectionAndDocuments("posts",payload);
 			return { ...state, posts: payload };
 
 		default:
@@ -26,12 +28,23 @@ const postsReducer = (state, { type, payload }) => {
 
 const INITIAL_STATE = {
 	posts: [
-		{ title: "my day", text: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
-		{ title: "post 2", text: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
+		
+		
 	],
 	postsCount: 0,
 };
 export const PostsProvider = ({ children }) => {
+	useEffect(()=>{
+		const getFirebaseDatabase= async ()=>{
+			const firebasePosts=await getPostsFromFirebase();
+			updatePostReducer(firebasePosts);
+			
+		}
+		getFirebaseDatabase();
+		
+		
+
+	},[]);
 	const [{ posts, postsCount }, dispatch] = useReducer(
 		postsReducer,
 		INITIAL_STATE
@@ -43,17 +56,20 @@ export const PostsProvider = ({ children }) => {
 	};
 	const updatePostReducer = (newPosts) => {
 		dispatch(createAction(POSTS_ACTION_TYPES.SET_POSTS, newPosts));
+
 	};
 	const createNewPost = (newPostInfo) => {
 		const { title, text } = newPostInfo;
 		console.log(currentUser);
+		
+
 		const newPost = {
 			title: title,
 			text: text,
 			author: currentUser.displayName,
-			createdAt: "today",
+			createdAt: new Date().getTime(),
 			likes: 0,
-			id:posts.length+1,
+			id:Math.floor(Math.random()*10000000),
 		};
 		addNewPost(newPost);
 	};
