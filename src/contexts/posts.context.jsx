@@ -4,8 +4,8 @@ import { createAction } from "../utils/reducer/reducer.utils.js";
 export const PostsContext = createContext({
 	createNewPost: () => null,
 	posts: [
-		{ title: "my day", bodyText: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
-		{ title: "post 2", bodyText: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
+		{ title: "my day", text: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
+		{ title: "post 2", text: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
 	],
 	postsCount: 0,
 });
@@ -16,7 +16,7 @@ const POSTS_ACTION_TYPES = {
 const postsReducer = (state, { type, payload }) => {
 	switch (type) {
 		case POSTS_ACTION_TYPES.SET_POSTS:
-			console.log("new post creation attempt");
+			console.log(payload);
 			return { ...state, posts: payload };
 
 		default:
@@ -26,8 +26,8 @@ const postsReducer = (state, { type, payload }) => {
 
 const INITIAL_STATE = {
 	posts: [
-		{ title: "my day", bodyText: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
-		{ title: "post 2", bodyText: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
+		{ title: "my day", text: "Good day", author: "Ali A", id: 1 ,postTime:"today"},
+		{ title: "post 2", text: "This is post 2", author: "Ali A", id: 2 ,postTime:"today"},
 	],
 	postsCount: 0,
 };

@@ -2,7 +2,7 @@ import React from 'react'
 import { AuthorName, BodyText, CardHeader, PostContainer, TimeStamp, TitleContainer } from './post.styles';
 
 const Post = ({post}) => {
-    const {title,author,bodyText,postTime}=post;
+    const {title,author,text,postTime}=post;
   return (
     <PostContainer>
     <CardHeader>
@@ -11,7 +11,7 @@ const Post = ({post}) => {
         <AuthorName>{`Written by ${author}`}</AuthorName>
         <TimeStamp>{postTime}</TimeStamp>
         </CardHeader>
-        <BodyText>{bodyText}</BodyText>
+        <BodyText>{text}</BodyText>
         
     </PostContainer>
   )
