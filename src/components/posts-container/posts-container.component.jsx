@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Post from "../posts/posts.component";
+import Post from "../post/post.component";
 import { PostsContainerStyles } from "./posts-container.styles";
 const PostsContainer = () => {
 	const posts = [

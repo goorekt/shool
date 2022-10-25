@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { Fragment } from "react";
+import SignInForm from "../../components/sign-in-form/sign-in.component";
 
 const SignInPage = () => {
-  return (
-    <div>SignInPage</div>
-  )
-}
+	return (
+		<Fragment>
+			<div>SignInPage</div>
+			<SignInForm />
+		</Fragment>
+	);
+};
 
-export default SignInPage
+export default SignInPage;
