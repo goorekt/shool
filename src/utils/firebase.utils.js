@@ -20,6 +20,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 
+import {getStorage,ref,uploadBytes} from "firebase/storage";
 const firebaseConfig = {
 	apiKey: "AIzaSyAAUYv9B61XoqGYtd1KVnjquMldeq0L4o8",
 	authDomain: "shool-f6a2f.firebaseapp.com",
@@ -37,12 +38,29 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
+
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
+
 export const signInWithGoogleRedirect = () =>
 	signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
+const storage=getStorage(firebaseApp);
+
+
+export const uploadImageToStorage=async (image,filePath)=>{
+	if (image==null){
+		console.log("no image");
+		return;
+	}
+	const imageRef=ref(storage,`images/${filePath}`);
+	// ${image.name+v4()}
+	return await uploadBytes(imageRef,image);
+
+	
+};
+
 
 export const addCollectionAndDocuments = async (
 	collectionKey,

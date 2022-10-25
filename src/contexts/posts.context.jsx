@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { UserContext } from "./user.context";
+import {v4} from "uuid";
 import { createAction } from "../utils/reducer/reducer.utils.js";
-import { addCollectionAndDocuments, getPostsFromFirebase } from "../utils/firebase.utils";
+import { addCollectionAndDocuments, getPostsFromFirebase, uploadImageToStorage } from "../utils/firebase.utils";
 export const PostsContext = createContext({
 	createNewPost: () => null,
 	posts: [
@@ -59,9 +60,10 @@ export const PostsProvider = ({ children }) => {
 
 	};
 	const createNewPost = (newPostInfo) => {
-		const { title, text } = newPostInfo;
-		console.log(currentUser);
+		const { title, text, image} = newPostInfo;
+		const filePath=v4();
 		
+		uploadImageToStorage(image,filePath);
 
 		const newPost = {
 			title: title,
@@ -70,6 +72,7 @@ export const PostsProvider = ({ children }) => {
 			createdAt: new Date().getTime(),
 			likes: 0,
 			id:Math.floor(Math.random()*10000000),
+			filePath:filePath,
 		};
 		addNewPost(newPost);
 	};
