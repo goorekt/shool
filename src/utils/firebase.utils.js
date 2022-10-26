@@ -80,11 +80,15 @@ export const addCollectionAndDocuments = async (
 };
 export const addItemAndCollection = async (
 	collectionKey,
-	object
+	object,
+	docKey=object.id
 ) => {
+	//point to the collection to be stored in
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
-	const docRef = doc(collectionRef, "posts");
+	//point to the document placement
+	
+	const docRef = doc(collectionRef,docKey.toString());
 	//attach to batch (transaction)
 	console.log(object);
 	batch.set(docRef, object);

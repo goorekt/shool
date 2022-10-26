@@ -7,22 +7,23 @@ import {
 	TimeStamp,
 	TitleContainer,
 	LikesContainer,
+	LikeButton,
 } from "./post.styles";
 import {UserContext} from "../../contexts/user.context";
 import { PostsContext } from "../../contexts/posts.context";
 const Post = ({ post }) => {
 	const { title, author, text, createdAt,likes,id } = post;
 	const {currentUser}=useContext(UserContext);
-	const {addLikeToPost}=useContext(PostsContext);
+	const {addLikeToPost,removeLikeFromPost}=useContext(PostsContext);
   const today=new Date().getTime();
   
   const daysDifference=Math.ceil((today-createdAt) / (1000 * 3600 * 24))-1;
+  const likedBool=!post.likedBy.includes(currentUser.uid);
   
-  const likeHandler=()=>{
-	addLikeToPost(currentUser,post);
-	console.log("liked");
-	console.log(currentUser.uid);
-  }
+	const likeAndDislikeButtonHandler=()=>{
+		likedBool ? addLikeToPost(currentUser,post) : removeLikeFromPost(currentUser,post);
+	}
+  
   
 	return (
 		<PostContainer>
@@ -33,8 +34,10 @@ const Post = ({ post }) => {
 				<TimeStamp>{daysDifference==0 ? "today" : `${daysDifference} ${daysDifference>1 ? "days" : "day"} ago`}</TimeStamp>
 			</CardHeader>
 			<BodyText>{text}</BodyText>
-			<LikesContainer>{`${likes} likes`}</LikesContainer>
-			<button onClick={likeHandler}>Like </button>
+			<LikesContainer>{`${likes} likes`}
+			<LikeButton onClick={likeAndDislikeButtonHandler} liked={likedBool}>{likedBool ? "like" : "dislike"}</LikeButton>
+			
+			</LikesContainer>
 		</PostContainer>
 	);
 };

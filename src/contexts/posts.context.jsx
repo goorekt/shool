@@ -19,20 +19,15 @@ const postsReducer = (state, action) => {
 	switch (type) {
 		case POSTS_ACTION_TYPES.SET_POSTS:
 			
-			addCollectionAndDocuments("posts",payload);
 			return { ...state, posts: payload };
 
 		case POSTS_ACTION_TYPES.ADD_POST:
-			addItemAndCollection("posts",payload);
-			
 			return {...state,posts:[...state.posts,payload]};
 
 		case POSTS_ACTION_TYPES.CHANGE_POST:
+		
+			return {...state,posts:state.posts.map((post)=>post.id===payload.id ? payload : post)};
 			
-			addItemAndCollection("posts",payload);
-			
-			return {...state,posts:state.posts.map((post)=>post.id==payload.id ? payload : post)};
-			break;
 		default:
 			throw new Error(`Unhandled type ${type} in postsReducer`);
 	}
@@ -43,10 +38,11 @@ const INITIAL_STATE = {
 	postsCount: 0,
 };
 export const PostsProvider = ({ children }) => {
+	//Get from firebase
 	useEffect(()=>{
 		const getFirebaseDatabase= async ()=>{
 			const firebasePosts=await getPostsFromFirebase();
-			console.log(firebasePosts);
+			
 			updatePostReducer(firebasePosts);
 			
 		}
@@ -59,28 +55,55 @@ export const PostsProvider = ({ children }) => {
 		postsReducer,
 		INITIAL_STATE
 	);
+
 	const { currentUser } = useContext(UserContext);
+
+	//Database functions
 	
-	const changePost=(post)=>{
-		dispatch(createAction(POSTS_ACTION_TYPES.CHANGE_POST,post));
+	//hm
+	const updatePostReducer = (newPosts) => {
+		dispatch(createAction(POSTS_ACTION_TYPES.SET_POSTS, newPosts));
+		
+	};
+	//add new post
+	const addPostToDataBase =(newPost)=>{
+		dispatch(createAction(POSTS_ACTION_TYPES.ADD_POST, newPost));
+		addItemAndCollection("posts",newPost);
 	}
+	//change existing post
+	const changePostInDataBase=(post)=>{
+		dispatch(createAction(POSTS_ACTION_TYPES.CHANGE_POST,post));
+		addItemAndCollection("posts",post);
+	}
+
+	
+	const removeLikeFromPost=(user,dislikedPost)=>{
+		const {uid}=user;
+		const foundPost=posts.find((item)=>item.id==dislikedPost.id);
+		if(foundPost.likedBy.includes(uid)){
+		
+		const index=foundPost.likedBy.indexOf(uid);
+		foundPost.likedBy.splice(index,1);
+		const newPost={...foundPost,likes:foundPost.likes-1}
+		changePostInDataBase(newPost);
+
+	
+		}
+	}
+
+	//adds like to the post and calls database function
 	const addLikeToPost=(user,likedPost)=>{
 		const {uid}=user;
 		const foundPost=posts.find((item)=>item.id==likedPost.id);
 		if(!foundPost.likedBy.includes(uid)){
-
-		
 		const newPost={...foundPost,likedBy:[...foundPost.likedBy,uid],likes:foundPost.likes+1}
-		changePost(newPost);
+		changePostInDataBase(newPost);
+
 		}
 	}
-	const addNewPostToReducer =(newPost)=>{
-		dispatch(createAction(POSTS_ACTION_TYPES.ADD_POST, newPost));
-	}
-	const updatePostReducer = (newPosts) => {
-		dispatch(createAction(POSTS_ACTION_TYPES.SET_POSTS, newPosts));
 
-	};
+	
+	//generate post
 	const createNewPost = (newPostInfo) => {
 		const { title, text, image} = newPostInfo;
 		const filePath=v4();
@@ -97,9 +120,9 @@ export const PostsProvider = ({ children }) => {
 			filePath:filePath,
 			likedBy:[],
 		};
-		addNewPostToReducer(newPost);
+		addPostToDataBase(newPost);
 	};
-	const value = { createNewPost, posts, postsCount, addLikeToPost};
+	const value = { createNewPost, posts, postsCount, addLikeToPost,removeLikeFromPost};
 	return (
 		<PostsContext.Provider value={value}>{children}</PostsContext.Provider>
 	);

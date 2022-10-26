@@ -1,4 +1,12 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+
+
+const dislike = css`
+background-color:#8aff7dba;
+`;
+const like = css`
+background-color:#ff6e6eba
+`;
 
 export const PostContainer = styled.div`
   
@@ -11,11 +19,22 @@ export const PostContainer = styled.div`
 `;
 
 export const LikesContainer = styled.div`
-  width: 5em;
+  width: 100%;
   color: #9a0000;
   font-size: 0.85em;
+  display:flex;
+  justify-content:space-between;
  
 `
+export const LikeButton = styled.div`
+  cursor:pointer;
+  
+  padding:5px;
+  width: 3em;
+  border-radius:4px;
+  text-align: center;
+  ${({liked})=>liked ? dislike:like};
+`;
 export const ImageContainer = styled.div`
   width: 5em;
   height: 5em;
