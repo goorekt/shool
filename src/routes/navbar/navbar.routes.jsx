@@ -23,7 +23,7 @@ const Navbar = () => {
 					<SchoolLogo />
 				</LogoContainer>
 				<NavLinksContainer>
-
+					{currentUser && <NavLink to="/new-post">New post</NavLink>}
 					{currentUser ? <span onClick={signOutHandler}>Sign out</span> : <NavLink to="/sign-in">Sign in</NavLink>}
 				</NavLinksContainer>
 			</NavigationContainer>
