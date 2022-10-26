@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import { UserContext } from "./user.context";
 import {v4} from "uuid";
 import { createAction } from "../utils/reducer/reducer.utils.js";
-import { addCollectionAndDocuments, addItemAndCollection, getPostsFromFirebase, uploadImageToStorage } from "../utils/firebase.utils";
+import { addItemAndCollection, getPostsFromFirebase, uploadImageToStorage } from "../utils/firebase.utils";
 export const PostsContext = createContext({
 	createNewPost: () => null,
 	posts: [],
@@ -104,11 +104,16 @@ export const PostsProvider = ({ children }) => {
 
 	
 	//generate post
-	const createNewPost = (newPostInfo) => {
+	const createNewPost = async (newPostInfo) => {
 		const { title, text, image} = newPostInfo;
-		const filePath=v4();
+		var imageUrl="";
+		if (image){
+			const filePath=v4();
+			
+			imageUrl=await uploadImageToStorage(image,filePath);
+			
+		}
 		
-		uploadImageToStorage(image,filePath);
 
 		const newPost = {
 			title: title,
@@ -117,7 +122,7 @@ export const PostsProvider = ({ children }) => {
 			createdAt: new Date().getTime(),
 			likes: 0,
 			id:Math.floor(Math.random()*10000000),
-			filePath:filePath,
+			imageUrl:imageUrl || "",
 			likedBy:[],
 		};
 		addPostToDataBase(newPost);

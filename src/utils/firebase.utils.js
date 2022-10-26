@@ -20,7 +20,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 
-import {getStorage,ref,uploadBytes} from "firebase/storage";
+import {getDownloadURL, getStorage,ref,uploadBytes} from "firebase/storage";
 const firebaseConfig = {
 	apiKey: "AIzaSyAAUYv9B61XoqGYtd1KVnjquMldeq0L4o8",
 	authDomain: "shool-f6a2f.firebaseapp.com",
@@ -55,8 +55,9 @@ export const uploadImageToStorage=async (image,filePath)=>{
 		return;
 	}
 	const imageRef=ref(storage,`images/${filePath}`);
+	await uploadBytes(imageRef,image);
 	// ${image.name+v4()}
-	return await uploadBytes(imageRef,image);
+	return getDownloadURL(imageRef);
 
 	
 };

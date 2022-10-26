@@ -24,8 +24,12 @@ export const LikesContainer = styled.div`
   font-size: 0.85em;
   display:flex;
   justify-content:space-between;
+  margin-top:1em;
  
 `
+export const Photo = styled.img`
+  width: 100%;
+`;
 export const LikeButton = styled.div`
   cursor:pointer;
   
