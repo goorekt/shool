@@ -45,9 +45,10 @@ const Post = ({ post }) => {
 			<Photo src={imageUrl} />
 			<LikesContainer>
 				{`${likes} likes`}
-				<LikeButton onClick={likeAndDislikeButtonHandler} liked={likedBool}>
+				{currentUser ? <LikeButton onClick={likeAndDislikeButtonHandler} liked={likedBool}>
 					{likedBool ? "like" : "remove like"}
-				</LikeButton>
+				</LikeButton>: <LikeButton liked={false}>Log in to like posts</LikeButton>}
+				
 			</LikesContainer>
 		</PostContainer>
 	);
