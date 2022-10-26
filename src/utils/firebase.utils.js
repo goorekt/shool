@@ -78,6 +78,18 @@ export const addCollectionAndDocuments = async (
 	});
 	await batch.commit();
 };
+export const addItemAndCollection = async (
+	collectionKey,
+	object
+) => {
+	const collectionRef = collection(db, collectionKey);
+	const batch = writeBatch(db);
+	const docRef = doc(collectionRef, "posts");
+	//attach to batch (transaction)
+	console.log(object);
+	batch.set(docRef, object);
+	await batch.commit();
+};
 export const getPostsFromFirebase = async () => {
 	const collectionRef = collection(db, "posts");
 	const q = query(collectionRef);
@@ -101,9 +113,9 @@ export const createUserDocumentFromAuth = async (
 	const userDocRef = doc(db, "users", userAuth.uid);
 
 	const userSnapshot = await getDoc(userDocRef);
-
+	
 	if (!userSnapshot.exists()) {
-		const { displayName, email } = userAuth;
+		const { displayName, email,uid } = userAuth;
 		const createdAt = new Date();
 
 		try {
@@ -111,6 +123,7 @@ export const createUserDocumentFromAuth = async (
 				displayName,
 				email,
 				createdAt,
+				uid,
 				...additionalInformation,
 			});
 		} catch (error) {

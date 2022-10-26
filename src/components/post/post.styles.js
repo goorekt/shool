@@ -10,6 +10,12 @@ export const PostContainer = styled.div`
   margin: 1em;
 `;
 
+export const LikesContainer = styled.div`
+  width: 5em;
+  color: #9a0000;
+  font-size: 0.85em;
+ 
+`
 export const ImageContainer = styled.div`
   width: 5em;
   height: 5em;
