@@ -32,7 +32,7 @@ export const Photo = styled.img`
 `;
 export const LikeButton = styled.div`
   cursor:pointer;
-  
+  display: inline-block
   padding:5px;
   width: 3em;
   border-radius:4px;
