@@ -8,28 +8,29 @@ const like = css`
 `;
 
 export const PostContainer = styled.div`
-	display: grid;
-	flex-direction: column;
 	background: #fff;
 	border-radius: 0.5em;
 	padding: 1em;
 	margin: 1em;
+  
+ 
 `;
 
 export const LikesContainer = styled.div`
 	width: 100%;
 	color: #9a0000;
 	font-size: 0.85em;
-	display: flex;
+	display: inline-flex;
 	justify-content: space-between;
 	margin-top: 1em;
+  
 `;
 export const Photo = styled.img`
 	width: 100%;
 `;
 export const LikeButton = styled.div`
 	cursor: pointer;
-	
+  
 	padding: 5px;
 	width: 3em;
 	border-radius: 4px;
@@ -56,6 +57,7 @@ export const BodyText = styled.div`
 	font-size: 1.5em;
 	margin-top: 0.5em;
 	padding-bottom: 1em;
+  word-wrap: break-word;
 `;
 export const AuthorName = styled.div`
 	color: #999;

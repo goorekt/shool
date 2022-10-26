@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { PostsContext } from "../../contexts/posts.context";
 import { UserContext } from "../../contexts/user.context";
@@ -20,14 +20,24 @@ const NewPostForm = () => {
 	const [inputs, setInputs] = useState(defaultInputs);
 
 	const handleSubmitNewPost = (event) => {
+
 		event.preventDefault();
-		setInputs(defaultInputs);
+		if(inputs.image.type.includes("image")){
+			
 		createNewPost(inputs);
 		navigate("/");
+
+		}else{
+			alert("You can only upload images, try again with another file format");
+			setInputs({...inputs,image:null});
+		}
+		
 	};
+
+	
 	const handleChange = (e) => {
 		const { value, name } = e.target;
-		console.log(e.target.files);
+		
 
 		setInputs({ ...inputs, [name]: value });
 	};
