@@ -1,15 +1,20 @@
 import React, { Fragment, useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import { PostsContext } from "../../contexts/posts.context";
 import { UserContext } from "../../contexts/user.context";
 import FormInput from "../form-input/form-input.component";
-import { NewPostFormContainer, NewPostPageContainer } from "./new-post-form.styles";
+import {
+	NewPostFormContainer,
+	NewPostPageContainer,
+} from "./new-post-form.styles";
 
 const NewPostForm = () => {
+	const navigate = useNavigate();
 	const { currentUser } = useContext(UserContext);
 	const defaultInputs = {
 		title: "",
 		text: "",
-        image:null,
+		image: null,
 	};
 	const { createNewPost } = useContext(PostsContext);
 	const [inputs, setInputs] = useState(defaultInputs);
@@ -18,20 +23,19 @@ const NewPostForm = () => {
 		event.preventDefault();
 		setInputs(defaultInputs);
 		createNewPost(inputs);
+		navigate("/");
 	};
 	const handleChange = (e) => {
-        
 		const { value, name } = e.target;
-        console.log(e.target.files);
+		console.log(e.target.files);
 
-		setInputs({ ...inputs, [name] : value});
+		setInputs({ ...inputs, [name]: value });
 	};
-    const handleFileChange=(e)=>{
-        setInputs({...inputs,image:e.target.files[0]});
-    }
+	const handleFileChange = (e) => {
+		setInputs({ ...inputs, image: e.target.files[0] });
+	};
 
 	return (
-
 		<NewPostPageContainer>
 			<h1>Create new post!</h1>
 			<NewPostFormContainer>
@@ -51,11 +55,7 @@ const NewPostForm = () => {
 						name="text"
 						value={inputs.text}
 					/>
-                    <input
-                    type="file"
-                    name="image"
-                    onChange={handleFileChange}
-                    />
+					<input type="file" name="image" onChange={handleFileChange} />
 					<button type="submit">create new post</button>
 				</form>
 			</NewPostFormContainer>
