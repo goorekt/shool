@@ -55,6 +55,7 @@ const NewPostForm = () => {
 						onChange={handleChange}
 						name="title"
 						value={inputs.title}
+						maxLength={50}
 					/>
 					<FormInput
 						label="Text"
@@ -63,6 +64,7 @@ const NewPostForm = () => {
 						onChange={handleChange}
 						name="text"
 						value={inputs.text}
+						
 					/>
 					<input type="file" name="image" onChange={handleFileChange} />
 					<button type="submit">create new post</button>
