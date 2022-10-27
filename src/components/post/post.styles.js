@@ -12,8 +12,6 @@ export const PostContainer = styled.div`
 	border-radius: 0.5em;
 	padding: 1em;
 	margin: 1em;
-  
- 
 `;
 
 export const LikesContainer = styled.div`
@@ -23,14 +21,13 @@ export const LikesContainer = styled.div`
 	display: inline-flex;
 	justify-content: space-between;
 	margin-top: 1em;
-  
 `;
 export const Photo = styled.img`
 	width: 100%;
 `;
 export const LikeButton = styled.div`
 	cursor: pointer;
-  
+
 	padding: 5px;
 	width: 3em;
 	border-radius: 4px;
@@ -45,6 +42,7 @@ export const ImageContainer = styled.div`
 `;
 export const TitleContainer = styled.div`
 	font-weight: 700;
+	word-wrap: break-word;
 `;
 export const CardHeader = styled.div`
 	display: flex;
@@ -57,7 +55,7 @@ export const BodyText = styled.div`
 	font-size: 1.5em;
 	margin-top: 0.5em;
 	padding-bottom: 1em;
-  word-wrap: break-word;
+	word-wrap: break-word;
 `;
 export const AuthorName = styled.div`
 	color: #999;
