@@ -20,24 +20,23 @@ const NewPostForm = () => {
 	const [inputs, setInputs] = useState(defaultInputs);
 
 	const handleSubmitNewPost = (event) => {
-
 		event.preventDefault();
-		if(inputs.image.type.includes("image")){
-			
-		createNewPost(inputs);
-		navigate("/");
-
-		}else{
-			alert("You can only upload images, try again with another file format");
-			setInputs({...inputs,image:null});
+		if (inputs.image) {
+			if (inputs.image.type.includes("image")) {
+				createNewPost(inputs);
+				navigate("/");
+			} else {
+				alert("You can only upload images, try again with another file format");
+				setInputs({ ...inputs, image: null });
+			}
+		} else {
+			createNewPost(inputs);
+			navigate("/");
 		}
-		
 	};
 
-	
 	const handleChange = (e) => {
 		const { value, name } = e.target;
-		
 
 		setInputs({ ...inputs, [name]: value });
 	};
