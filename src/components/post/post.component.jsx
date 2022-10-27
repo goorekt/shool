@@ -20,7 +20,7 @@ const Post = ({ post }) => {
 	const today = new Date().getTime();
 
 	const daysDifference =
-		Math.ceil((today - createdAt) / (1000 * 3600 * 24)) - 1;
+		Math.ceil((today - createdAt) / (1000 * 3600)) - 1;
 
 	const likedBool = currentUser && !post.likedBy.includes(currentUser.uid);
 
@@ -37,8 +37,8 @@ const Post = ({ post }) => {
 				<AuthorName>{`Written by ${author}`}</AuthorName>
 				<TimeStamp>
 					{daysDifference == 0
-						? "today"
-						: `${daysDifference} ${daysDifference > 1 ? "days" : "day"} ago`}
+						? "less than one hour ago"
+						: `${daysDifference} ${daysDifference > 1 ? "hours" : "hour"} ago`}
 				</TimeStamp>
 			</CardHeader>
 			<BodyText>{text}</BodyText>
