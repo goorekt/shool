@@ -10,9 +10,7 @@ const SignInForm = () => {
 	const signInWithGoogle = async () => {
 		
 		const { user } = await signInWithGooglePopup();
-		if (!user.uid=="GlMI9VvWAbMSjweC6vJmnGeEIDS2"){
-			signOutUser();
-		}
+		
 
 		console.log(user.accessToken);
 		if (user.accessToken) {

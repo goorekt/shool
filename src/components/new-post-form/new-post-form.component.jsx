@@ -21,6 +21,10 @@ const NewPostForm = () => {
 
 	const handleSubmitNewPost = (event) => {
 		event.preventDefault();
+		if (!currentUser.uid=="GlMI9VvWAbMSjweC6vJmnGeEIDS2"){
+			alert("alex må ikke poste");
+			return;
+		}
 		if (inputs.image) {
 			if (inputs.image.type.includes("image")) {
 				createNewPost(inputs);
