@@ -13,7 +13,9 @@ import {
 } from "./post.styles";
 import { UserContext } from "../../contexts/user.context";
 import { PostsContext } from "../../contexts/posts.context";
+import { useNavigate } from "react-router";
 const Post = ({ post }) => {
+	const navigate = useNavigate();
 	const { title, author, text, createdAt, likes, id, imageUrl } = post;
 	const { currentUser } = useContext(UserContext);
 	const { addLikeToPost, removeLikeFromPost } = useContext(PostsContext);
@@ -45,10 +47,15 @@ const Post = ({ post }) => {
 			<Photo src={imageUrl} />
 			<LikesContainer>
 				{`${likes} likes`}
-				{currentUser ? <LikeButton onClick={likeAndDislikeButtonHandler} liked={likedBool}>
-					{likedBool ? "like" : "remove like"}
-				</LikeButton>: <LikeButton liked={false}>Log in to like posts</LikeButton>}
-				
+				{currentUser ? (
+					<LikeButton onClick={likeAndDislikeButtonHandler} liked={likedBool}>
+						{likedBool ? "like" : "remove like"}
+					</LikeButton>
+				) : (
+					<LikeButton liked={false} onClick={() => navigate("sign-in")}>
+						Log in to like posts
+					</LikeButton>
+				)}
 			</LikesContainer>
 		</PostContainer>
 	);
