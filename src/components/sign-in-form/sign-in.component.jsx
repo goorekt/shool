@@ -1,13 +1,19 @@
+import { signOut } from "firebase/auth";
 import React from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/user.context.jsx";
 import "../../utils/firebase.utils.js";
-import { signInWithGooglePopup } from "../../utils/firebase.utils.js";
+import { signInWithGooglePopup, signOutUser } from "../../utils/firebase.utils.js";
 import "./sign-in.styles.scss";
 const SignInForm = () => {
 	const navigate = useNavigate();
 	const signInWithGoogle = async () => {
+		
 		const { user } = await signInWithGooglePopup();
+		if (!user.uid=="GlMI9VvWAbMSjweC6vJmnGeEIDS2"){
+			signOutUser();
+		}
+
 		console.log(user.accessToken);
 		if (user.accessToken) {
 			navigate("/");
