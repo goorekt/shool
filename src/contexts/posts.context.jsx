@@ -66,11 +66,7 @@ export const PostsProvider = ({ children }) => {
 		const getFirebaseDatabase = async () => {
 			const firebasePosts = await getPostsFromFirebase();
 
-			updatePostReducer(
-				firebasePosts.filter(
-					(item) => item.title.length > 4
-				)
-			);
+			updatePostReducer(firebasePosts.filter((item) => item.title.length > 4));
 		};
 		getFirebaseDatabase();
 	}, []);
@@ -94,7 +90,7 @@ export const PostsProvider = ({ children }) => {
 	};
 	//change existing post
 	const changePostInDataBase = (post) => {
-		post.likes=post.likedBy.length;
+		post.likes = post.likedBy.length;
 		dispatch(createAction(POSTS_ACTION_TYPES.CHANGE_POST, post));
 		addItemAndCollection("posts", post);
 	};
@@ -105,7 +101,7 @@ export const PostsProvider = ({ children }) => {
 		if (foundPost.likedBy.includes(uid)) {
 			const index = foundPost.likedBy.indexOf(uid);
 			foundPost.likedBy.splice(index, 1);
-			
+
 			changePostInDataBase(foundPost);
 		}
 	};
@@ -118,7 +114,6 @@ export const PostsProvider = ({ children }) => {
 			const newPost = {
 				...foundPost,
 				likedBy: [...foundPost.likedBy, uid],
-				
 			};
 			changePostInDataBase(newPost);
 		}
