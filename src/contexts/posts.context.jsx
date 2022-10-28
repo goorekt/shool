@@ -105,7 +105,7 @@ export const PostsProvider = ({ children }) => {
 		if (foundPost.likedBy.includes(uid)) {
 			const index = foundPost.likedBy.indexOf(uid);
 			foundPost.likedBy.splice(index, 1);
-			const newPost = { ...foundPost, likes: foundPost.likes - 1 };
+			
 			changePostInDataBase(newPost);
 		}
 	};
@@ -118,7 +118,7 @@ export const PostsProvider = ({ children }) => {
 			const newPost = {
 				...foundPost,
 				likedBy: [...foundPost.likedBy, uid],
-				likes: foundPost.likes + 1,
+				
 			};
 			changePostInDataBase(newPost);
 		}
