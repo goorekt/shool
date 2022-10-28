@@ -94,6 +94,7 @@ export const PostsProvider = ({ children }) => {
 	};
 	//change existing post
 	const changePostInDataBase = (post) => {
+		post.likes=post.likedBy.length;
 		dispatch(createAction(POSTS_ACTION_TYPES.CHANGE_POST, post));
 		addItemAndCollection("posts", post);
 	};
