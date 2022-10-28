@@ -68,7 +68,7 @@ export const PostsProvider = ({ children }) => {
 
 			updatePostReducer(
 				firebasePosts.filter(
-					(item) => item.title.length < 50 && item.text.length > 4
+					(item) => item.title.length > 4
 				)
 			);
 		};
@@ -106,7 +106,7 @@ export const PostsProvider = ({ children }) => {
 			const index = foundPost.likedBy.indexOf(uid);
 			foundPost.likedBy.splice(index, 1);
 			
-			changePostInDataBase(newPost);
+			changePostInDataBase(foundPost);
 		}
 	};
 
