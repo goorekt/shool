@@ -65,8 +65,16 @@ export const PostsProvider = ({ children }) => {
 	useEffect(() => {
 		const getFirebaseDatabase = async () => {
 			const firebasePosts = await getPostsFromFirebase();
+<<<<<<< HEAD
 
 			updatePostReducer(firebasePosts.filter((item) => item.title.length > 4));
+=======
+			console.log(firebasePosts);
+			// firebasePosts.filter((item) => item.title.length < 50 && item.text.length > 4)
+			updatePostReducer(
+				firebasePosts
+			);
+>>>>>>> 7a0a963fb4a1b65e16b9eda9fa9f98d5b0e5e7d2
 		};
 		getFirebaseDatabase();
 	}, []);
