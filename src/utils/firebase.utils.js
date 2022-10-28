@@ -19,6 +19,7 @@ import {
 	query,
 	getDocs,
 } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 
 import {getDownloadURL, getStorage,ref,uploadBytes} from "firebase/storage";
 const firebaseConfig = {
@@ -152,6 +153,13 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = async () => await signOut(auth);
+
+const q = query(collection(db, "posts"));
+export const dataChangeListener=(callback)=>{
+	onSnapshot(q, callback);
+
+}
+
 
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);

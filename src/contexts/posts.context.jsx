@@ -4,9 +4,12 @@ import { v4 } from "uuid";
 import { createAction } from "../utils/reducer/reducer.utils.js";
 import {
 	addItemAndCollection,
+	dataChangeListener,
+	db,
 	getPostsFromFirebase,
 	uploadImageToStorage,
 } from "../utils/firebase.utils";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export const SORT_POST_STATES = {
 	MOST_LIKED: "MOST_LIKED",
@@ -65,18 +68,18 @@ export const PostsProvider = ({ children }) => {
 	useEffect(() => {
 		const getFirebaseDatabase = async () => {
 			const firebasePosts = await getPostsFromFirebase();
-<<<<<<< HEAD
 
-			updatePostReducer(firebasePosts.filter((item) => item.title.length > 4));
-=======
-			console.log(firebasePosts);
+			
 			// firebasePosts.filter((item) => item.title.length < 50 && item.text.length > 4)
-			updatePostReducer(
-				firebasePosts
-			);
->>>>>>> 7a0a963fb4a1b65e16b9eda9fa9f98d5b0e5e7d2
+			updatePostReducer(firebasePosts);
 		};
 		getFirebaseDatabase();
+		const unsubscribe = dataChangeListener((posts) => {
+			const categoryMap = posts.docs.map((docSnapshot) => {
+				return docSnapshot.data();
+			}, {});
+			updatePostReducer(categoryMap);
+		});
 	}, []);
 	const [{ posts, postsCount, sortPostState }, dispatch] = useReducer(
 		postsReducer,
@@ -86,6 +89,8 @@ export const PostsProvider = ({ children }) => {
 	const { currentUser } = useContext(UserContext);
 
 	//Database functions
+
+	//firestore change listener
 
 	//hm
 	const updatePostReducer = (newPosts) => {
