@@ -65,11 +65,10 @@ export const PostsProvider = ({ children }) => {
 	useEffect(() => {
 		const getFirebaseDatabase = async () => {
 			const firebasePosts = await getPostsFromFirebase();
-
+			console.log(firebasePosts);
+			// firebasePosts.filter((item) => item.title.length < 50 && item.text.length > 4)
 			updatePostReducer(
-				firebasePosts.filter(
-					(item) => item.title.length < 50 && item.text.length > 4
-				)
+				firebasePosts
 			);
 		};
 		getFirebaseDatabase();
