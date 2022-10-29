@@ -3,6 +3,7 @@ import { UserContext } from "./user.context";
 import { v4 } from "uuid";
 import { createAction } from "../utils/reducer/reducer.utils.js";
 import {
+	addCollectionAndDocuments,
 	addItemAndCollection,
 	dataChangeListener,
 	db,
@@ -51,7 +52,7 @@ const postsReducer = (state, action) => {
 			};
 
 		case POSTS_ACTION_TYPES.CHANGE_SORT_POSTS_STATE:
-			console.log(payload);
+			
 			return { ...state, sortPostState: payload };
 		default:
 			throw new Error(`Unhandled type ${type} in postsReducer`);
@@ -70,7 +71,9 @@ export const PostsProvider = ({ children }) => {
 			const firebasePosts = await getPostsFromFirebase();
 
 			
-			// firebasePosts.filter((item) => item.title.length < 50 && item.text.length > 4)
+			// const modifiedPosts=firebasePosts.map((item) => ({...item,comments:[]}))
+			
+			
 			updatePostReducer(firebasePosts);
 		};
 		getFirebaseDatabase();
@@ -119,6 +122,8 @@ export const PostsProvider = ({ children }) => {
 		}
 	};
 
+	//adds comment to post
+	
 	//adds like to the post and calls database function
 	const addLikeToPost = (user, likedPost) => {
 		const { uid } = user;
@@ -142,6 +147,14 @@ export const PostsProvider = ({ children }) => {
 		);
 	};
 
+	//find post by id return post
+	const findPostById=(id)=>{
+		return posts.find((post)=>post.id==id);
+
+	}
+
+
+
 	//generate post
 	const createNewPost = async (newPostInfo) => {
 		const { title, text, image } = newPostInfo;
@@ -161,9 +174,25 @@ export const PostsProvider = ({ children }) => {
 			id: Math.floor(Math.random() * 10000000),
 			imageUrl: imageUrl || "",
 			likedBy: [],
+			comments:[],
 		};
 		addPostToDataBase(newPost);
 	};
+
+	const createNewComment=(commentText,post)=>{
+
+		const newComment={
+			text:commentText,
+			author:currentUser.displayName,
+			authorId:currentUser.uid,
+			createdAt: new Date().getTime(),
+		}
+		console.log(newComment);
+		const newPost={...post,comments:[...post.comments,newComment]};
+		changePostInDataBase(newPost);
+	}
+
+
 	const value = {
 		createNewPost,
 		posts,
@@ -172,6 +201,8 @@ export const PostsProvider = ({ children }) => {
 		removeLikeFromPost,
 		sortPostState,
 		setSortPostState,
+		findPostById,
+		createNewComment,
 	};
 	return (
 		<PostsContext.Provider value={value}>{children}</PostsContext.Provider>

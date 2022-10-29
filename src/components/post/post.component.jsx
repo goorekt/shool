@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
 	AuthorName,
 	BodyText,
@@ -13,17 +13,24 @@ import {
 } from "./post.styles";
 import { UserContext } from "../../contexts/user.context";
 import { PostsContext } from "../../contexts/posts.context";
+import { useNavigate } from "react-router";
 const Post = ({ post }) => {
 	const { title, author, text, createdAt, likes, id, imageUrl } = post;
 	const { currentUser } = useContext(UserContext);
 	const { addLikeToPost, removeLikeFromPost } = useContext(PostsContext);
+	
+	const navigate=useNavigate();
+
 	const today = new Date().getTime();
+
 
 	const daysDifference =
 		Math.ceil((today - createdAt) / (1000 * 3600)) - 1;
 
 	const likedBool = currentUser && !post.likedBy.includes(currentUser.uid);
-
+	const redirectToPostPage=()=>{
+		navigate(`/${id}`);
+	}
 	const likeAndDislikeButtonHandler = () => {
 		likedBool
 			? addLikeToPost(currentUser, post)
@@ -31,9 +38,10 @@ const Post = ({ post }) => {
 	};
 
 	return (
+		post &&(
 		<PostContainer>
 			<CardHeader>
-				<TitleContainer>{title}</TitleContainer>
+				<TitleContainer onClick={()=>redirectToPostPage()}>{title}</TitleContainer>
 				<AuthorName>{`Written by ${author}`}</AuthorName>
 				<TimeStamp>
 					{daysDifference == 0
@@ -50,7 +58,7 @@ const Post = ({ post }) => {
 				</LikeButton>: <LikeButton liked={false}>Log in to like posts</LikeButton>}
 				
 			</LikesContainer>
-		</PostContainer>
+		</PostContainer>)
 	);
 };
 

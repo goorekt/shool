@@ -52,12 +52,16 @@ const PostsContainer = () => {
 	)
 
 	return (
-		<PostsContainerStyles>
+		<Fragment>
 		<h2>{`Sorted by: ${showSortedByInHeader(sortPostState)}`}</h2>
+		<PostsContainerStyles>
+		
 			{sortedPosts.map((post) => (
 				<Post key={post.id} post={post} />
 			))}
 		</PostsContainerStyles>
+
+		</Fragment>
 	);
 };
 
