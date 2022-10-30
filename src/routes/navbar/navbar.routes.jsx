@@ -8,10 +8,12 @@ import {
 } from "./navigation.styles";
 import { ReactComponent as SchoolLogo } from "../../assets/shool-logo.svg";
 import { Outlet } from "react-router";
-import { signOutUser } from "../../utils/firebase.utils";
+import { addCollectionAndDocuments, signOutUser } from "../../utils/firebase.utils";
+import { PostsContext } from "../../contexts/posts.context";
+import LoggedInOptions from "../../components/logged-in-options/logged-in-options.component";
 const Navbar = () => {
 	const {currentUser}=useContext(UserContext);
-
+	const {posts}=useContext(PostsContext);
 	const signOutHandler=()=>{
 		signOutUser();
 	}
@@ -22,9 +24,12 @@ const Navbar = () => {
 				<LogoContainer to="/">
 					<SchoolLogo />
 				</LogoContainer>
+				{currentUser && <LoggedInOptions/>
+				}
 				<NavLinksContainer>
-					{currentUser && <NavLink to="/new-post">New post</NavLink>}
-					{currentUser ? <span onClick={signOutHandler}>Sign out</span> : <NavLink to="/sign-in">Sign in</NavLink>}
+					{currentUser && <NavLink to="/new-post">New post</NavLink>
+				}
+					{currentUser ? <NavLink onClick={signOutHandler}>Sign out</NavLink> : <NavLink to="/sign-in">Sign in</NavLink>}
 				</NavLinksContainer>
 			</NavigationContainer>
 			<Outlet />

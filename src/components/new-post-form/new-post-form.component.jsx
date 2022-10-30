@@ -21,22 +21,26 @@ const NewPostForm = () => {
 
 	const handleSubmitNewPost = (event) => {
 		event.preventDefault();
-		if (!currentUser.uid=="GlMI9VvWAbMSjweC6vJmnGeEIDS2"){
-			alert("alex må ikke poste");
-			return;
-		}
-		if (inputs.image) {
-			if (inputs.image.type.includes("image")) {
+
+		if (inputs.title.length<40 && inputs.text.length<300){
+			if (inputs.image) {
+				if (inputs.image.type.includes("image")) {
+					createNewPost(inputs);
+					navigate("/");
+				} else {
+					alert("You can only upload images, try again with another file format");
+					setInputs({ ...inputs, image: null });
+				}
+			} else {
+	
+				
 				createNewPost(inputs);
 				navigate("/");
-			} else {
-				alert("You can only upload images, try again with another file format");
-				setInputs({ ...inputs, image: null });
 			}
-		} else {
-			createNewPost(inputs);
-			navigate("/");
+
 		}
+		else{alert("title or text is too long");}
+
 	};
 
 	const handleChange = (e) => {
@@ -59,7 +63,7 @@ const NewPostForm = () => {
 						onChange={handleChange}
 						name="title"
 						value={inputs.title}
-						maxLength={50}
+
 					/>
 					<FormInput
 						label="Text"

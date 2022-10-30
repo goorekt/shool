@@ -19,6 +19,7 @@ import {
 	query,
 	getDocs,
 } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 
 import {getDownloadURL, getStorage,ref,uploadBytes} from "firebase/storage";
 const firebaseConfig = {
@@ -51,7 +52,7 @@ const storage=getStorage(firebaseApp);
 
 export const uploadImageToStorage=async (image,filePath)=>{
 	if (image==null){
-		console.log("no image");
+		
 		return;
 	}
 	const imageRef=ref(storage,`images/${filePath}`);
@@ -73,7 +74,7 @@ export const addCollectionAndDocuments = async (
 	//attach to batch (transaction)
 	objectsToAdd.forEach((object) => {
 		//set reference
-		const docRef = doc(collectionRef, object.title.toLowerCase());
+		const docRef = doc(collectionRef, object.id);
 		//set the batch (transaction)
 		batch.set(docRef, object);
 	});
@@ -91,7 +92,6 @@ export const addItemAndCollection = async (
 	
 	const docRef = doc(collectionRef,docKey.toString());
 	//attach to batch (transaction)
-	console.log(object);
 	batch.set(docRef, object);
 	await batch.commit();
 };
@@ -152,6 +152,13 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = async () => await signOut(auth);
+
+const q = query(collection(db, "posts"));
+export const dataChangeListener=(callback)=>{
+	onSnapshot(q, callback);
+
+}
+
 
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
