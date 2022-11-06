@@ -29,7 +29,7 @@ const Navbar = () => {
 				<NavLinksContainer>
 					{currentUser && <NavLink to="/new-post">New post</NavLink>
 				}
-					{currentUser ? <span onClick={signOutHandler}>Sign out</span> : <NavLink to="/sign-in">Sign in</NavLink>}
+					{currentUser ? <NavLink onClick={signOutHandler}>Sign out</NavLink> : <NavLink to="/sign-in">Sign in</NavLink>}
 				</NavLinksContainer>
 			</NavigationContainer>
 			<Outlet />
